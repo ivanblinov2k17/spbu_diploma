@@ -30,12 +30,16 @@ let m = [247,251,253,254,255]
 let M = Big(1)
 m = m.slice(-shares)
 console.log(m, 'mi array')
-m.forEach((mi) => M = M.times(mi))
+
+const m_thresh = m.slice(-threshold)
+m_thresh.forEach((mi) => M = M.times(mi))
 console.log(M.toString(), 'M')
 
 let N = Big(1)
-const m_thresh = m.slice(-threshold+1)
-m_thresh.forEach(mi => N = N.times(mi))
+// m_thresh.forEach(mi => N = N.times(mi))
+for (let i = 1; i < threshold; i++) {
+    N = N.times(m[shares-i])  
+}
 console.log(N.toString(), 'N')
 
 console.log(N.times(p).toString(), 'nmultp')
@@ -72,7 +76,7 @@ secretPixels.forEach((x, sindex)=>{
         const qcondarr = []
         if (x>=0 && x<p){
             const rightBound = M.div(p).minus(1).round(undefined, Big.roundDown)
-            const leftBound = T.minus(1)
+            const leftBound = T.plus(1)
             const difference = rightBound.minus(leftBound)
             A = difference.times(Math.random()).round().plus(leftBound)
             y = A.times(p).plus(x)
@@ -96,7 +100,7 @@ secretPixels.forEach((x, sindex)=>{
     })
     
 })
-console.log(modifiedCovers.map(c=>c.toString()))
+console.log(modifiedCovers.map(c=>c.toString()), 'modified covers')
 // recovering process
 const coversRecovered = [[],[],[],[],[]]
 // reconstructing covers
@@ -133,7 +137,7 @@ function inverse(a, n){
 }
 const secretLen = modifiedCovers[0].length
 const secretRecovered = []
-const modifiedThresh = modifiedCovers.slice(-threshold);
+const modifiedThresh = modifiedCovers.slice(0, threshold);
 for (let i=0; i < secretLen; i++){
     let CRT = []
     modifiedThresh.forEach((mCov, index)=>{
@@ -165,3 +169,4 @@ for (let i=0; i < secretLen; i++){
     secretRecovered.push(x)
 }
 console.log(secretRecovered.map(s=>s.toString()))
+console.log(secretPixels)
