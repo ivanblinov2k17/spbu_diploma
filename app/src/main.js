@@ -49,7 +49,7 @@ export function encrypt(shares, threshold, secretPixels, covers){
         }
         return false
     }
-    const TH = 8;
+    const TH = 16;
     
     const modifiedCovers = []
     for (let i = 0; i < shares; i++){
@@ -72,6 +72,7 @@ export function encrypt(shares, threshold, secretPixels, covers){
                 A = T.times(Math.random()).round()
                 y = A.times(p).plus(x).minus(p)
             }
+            //переписать чтобы выбирать А из массива подходящих значений, а не рандомить и надеяться на чудо
             m.forEach((mi, index) => {      
                 const THi0 = mi/2 - TH 
                 const THi1 = mi/2 + TH
@@ -103,7 +104,6 @@ const secretPixels = [255, 125, 148, 200]
 const {modifiedCovers, m, T, p} = encrypt(shares, threshold, secretPixels, covers)
 
 // recovering process
-
 export function recover(modifiedCovers, m, T, p){
     const coversRecovered = new Array(modifiedCovers.length).fill([]);
 // reconstructing covers
