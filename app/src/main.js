@@ -1,4 +1,3 @@
-import gcd from "compute-gcd"
 import Big from "big.js"
 
 // STEP 1 encoding
@@ -50,9 +49,12 @@ export function encrypt(shares, threshold, secretPixels, covers){
         }
         return false
     }
-    const TH = 64;
+    const TH = 8;
     
-    const modifiedCovers = [[],[],[],[],[]]
+    const modifiedCovers = []
+    for (let i = 0; i < shares; i++){
+        modifiedCovers.push([])
+    }
     secretPixels.forEach((x, sindex)=>{
         let A = 0;
         let y = 0;

@@ -1,12 +1,14 @@
 import './App.css';
 import pixels from 'image-pixels';
-import {forwardRef, useEffect, useRef, useState} from 'react';
+import {Image} from 'image-js';
+import { useRef, useState} from 'react';
+import { encrypt } from './main';
 function App() {
   const [imageData, setImageData] = useState(undefined);
   const [imageFile, setImageFile] = useState(null);
-  const [sharesNum, setSharesNum] = useState(5);
+  const [sharesNum, setSharesNum] = useState(3);
   const [shares, setShares] = useState([]);
-  const [threshold, setThreshold] = useState(3);
+  const [threshold, setThreshold] = useState(2);
   const [covers, setCovers] = useState([]);
   const [coversByte, setCoversByte] = useState([]);
   const [submited, setSubmited] = useState(false);
@@ -19,8 +21,12 @@ function App() {
   const onSecretLoaded = async () => {
     if(!imageData){
       const {data, width, height} = await pixels(imageRef.current);
-      console.log(data)
-      setImageData({data, width, height})
+      const grayscaleData = rgbaToGrayscale(data)
+      let greySecret = new Image(
+        {width, height, data: grayscaleData, kind: 'GREY'}
+      );
+      setImageFile(greySecret.toDataURL())
+      setImageData({grayscaleData, width, height})
     }
   }
 
@@ -36,16 +42,56 @@ function App() {
 
   const onCoverLoaded = async (e, index)=>{
     if(!coversByte[index]){
+      const tempCovers = [...covers]
+       
       const tempCoversByte = [...coversByte]
-      const {data, width, height} = await pixels(imageRef.current);
-      tempCoversByte[index] = {data, width, height}
+      const image = await Image.load(coversRef.current[index]?.src)
+
+      const binaryData = greyToBinary(image.grey().data)
+      
+      const size = Math.round(Math.sqrt(binaryData.length))
+      const binary = new Image({
+        height: size,
+        width: size,
+        data: binaryData.map(pixel => pixel ? 255 : 0), kind: "GREY", })
+      //shan
+      tempCoversByte[index] = binaryData
+
+      tempCovers[index] = binary.toDataURL();
+    
+      setCovers(tempCovers)
       setCoversByte(tempCoversByte)
     }
   }
 
+  
   const onSubmitClick = () => {
-    setShares(covers)//change on result
+    const result = encrypt(sharesNum, threshold, imageData.grayscaleData, coversByte) 
+    const mCoversImages = result.modifiedCovers.map((cover)=>{
+      const size = Math.round(Math.sqrt(cover.length));
+      debugger;
+      return new Image(({height: size, width: size, data: cover, kind: "GREY"}))
+    })
+    const modifiedCovers = mCoversImages.map(m=>m.toDataURL())
+    setShares(modifiedCovers)//change on result
     setSubmited(true);
+  }
+
+  // luminosityMethod
+  const rgbaToGrayscale = (rgbPixels) => {
+    const grayscaleImage = [];
+
+    for (let i = 0; i < rgbPixels.length; i=i+4) {
+      const pixel = 0.3*rgbPixels[i] + 0.59*rgbPixels[i+1] + 0.11*rgbPixels[i+2]
+      grayscaleImage.push(Math.round(pixel))
+    }
+    return grayscaleImage
+  }
+
+  const greyToBinary = (greyPixels) => {
+    return greyPixels.map((pixel)=>{
+      return pixel > 127 ? 1 : 0;
+    })
   }
   
   return (
@@ -56,14 +102,15 @@ function App() {
         </div>
         <input type="file" accept="image/png" onChange={onSecretChange}></input>
         <img src={imageFile}  onLoad={onSecretLoaded} height="512px" width="512px" alt='secret' ref={imageRef}></img>
-        
+        Grayscaled Secret:
+        <img></img>
       </div>
 
       <div className='scheme'>
-        Enter shares number (3 - 10)
+        Enter shares number (3 - 6)
         <input type="number" value={sharesNum} onChange={sharesChange} max="10" min="3"></input>
 
-        Enter threshold value (2 - 9)
+        Enter threshold value (2 - 5)
         <input type="number" value={threshold} onChange={(e)=>{setThreshold(e.target.value)}} max="9" min="2"></input>
       </div>
       {imageData && sharesNum 
@@ -71,6 +118,7 @@ function App() {
 
       <button onClick={onSubmitClick}>Generate Shares</button>
       {submited && <SharesComponent {...{sharesNum, shares}}/>}
+
     </div>
   );
 }
