@@ -1,38 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap');
+
+
+body {
+  background-color: #f4f4f6;;
+}
+
 .App {
+  /* background-color: #e6e6e9; */
   text-align: center;
+  position: relative;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.header {
+  font-family: 'Inter', sans-serif;
+  margin: 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.choose-file {
+  opacity: 0;
+  width: 0.1px;
+  height: 0.1px;
+  position: absolute;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.file-input {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.file-input label {
+  display: block;
+  position: relative;
+  background-color: #FFFFFF;
+  border: 0;
+  border-radius: .5rem;
+  color: #111827;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  width: 150px;
+  height: 30px;
+  box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform .2s ease-out;
+  margin-bottom: 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.selectImg {
+  width: 20%;
+  height: 70%;
+  margin-right: 5%;
 }
+
+.main-image {
+  margin-bottom: 20px;
+}
+
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
+  width: 800px;
+  height: 50px;
+}
+
+.scheme {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%)
+}
+
+.input-num {
+  font-family: 'Inter', sans-serif;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-weight: 600;
+}
+
+.generate-button {
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-family: 'Inter', sans-serif;
+  display: block;
+  position: relative;
+  background-color: #FFFFFF;
+  border: 0;
+  border-radius: .5rem;
+  color: #111827;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 100%;
+  width: 150px;
+  height: 30px;
+  box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: transform .2s ease-out;
+}
+
+.covers {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+/* .cover-image {
+  width: 540px;
+  height: 540px;
+} */
