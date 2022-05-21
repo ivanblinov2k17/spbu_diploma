@@ -122,7 +122,7 @@ function App() {
       {imageData && sharesNum 
       ? <CoversComponent {...{sharesNum, covers, coversRef, onCoverChange, onCoverLoaded}}/> : ''}
 
-      <button className='generate-button' onClick={onSubmitClick}>Generate shares</button>
+      <button className='generate-button' onClick={onSubmitClick}>Generate shares!</button>
       {submited && <SharesComponent {...{sharesNum, shares}}/>}
 
     </div>
@@ -133,17 +133,19 @@ function App() {
 function CoversComponent(props){
   const {sharesNum, covers, coversRef, onCoverChange, onCoverLoaded} = props
 
-  return <div className='covers'> 
+  return <div className='covers-container'> 
   {
   Array(parseInt(sharesNum)).fill(undefined).map((_, index)=>{
     return <div className='cover-image' key={index}>
-      Cover Image for share {index + 1}
+      <h4 className='header'>
+        Cover Image for share {index + 1}
+      </h4>
       <span className='file-input'>
         <input type="file" className='choose-file' id={`filee${index}`} accept="image/png" onChange={(e)=>onCoverChange(e, index)}></input>
-        <label for={`filee${index}`}>
-              <img className="selectImg" alt="img" src="https://cdn-icons.flaticon.com/png/512/3031/premium/3031707.png?token=exp=1653135303~hmac=31b0247f3a27b147fa2ceeb5c4b83971"/>
+          <label for={`filee${index}`}>
+            <img className="selectImg" alt="img" src="https://cdn-icons.flaticon.com/png/512/3031/premium/3031707.png?token=exp=1653135303~hmac=31b0247f3a27b147fa2ceeb5c4b83971"/>
               Select file
-              </label>
+          </label>
       </span>
       {covers?.[index] && <img src={covers?.[index]} height="512px" width="512px" 
         onLoad={(e)=>onCoverLoaded(e, index)} alt={`cover_${index}`} ref={(el) => coversRef.current[index] = el}></img>}
@@ -155,12 +157,14 @@ function CoversComponent(props){
 function SharesComponent(props){
   const {sharesNum, shares} = props
 
-  return <div> 
+  return <div className='generated-container'> 
   {
   Array(parseInt(sharesNum)).fill(undefined).map((_, index)=>{
-    return <div key={index}>
-      Share {index}
-      <img src={shares?.[index]} height="512px" width="512px" 
+    return <div className='generated-block' key={index}>
+      <h4 className='header'>
+        Share {index+1}
+      </h4>
+      <img className='generated-img' src={shares?.[index]} height="512px" width="512px" 
         alt={`share_${index}`}></img>
     </div>
     })
