@@ -18,15 +18,30 @@ function App() {
   const onSecretChange = (e) => {
     setImageFile(URL.createObjectURL(e.target.files?.[0]));
   }
+
+  //for GREY SECRET
+
+  // const onSecretLoaded = async () => {
+  //   if(!imageData){
+  //     const {data, width, height} = await pixels(imageRef.current);
+  //     const grayscaleData = rgbaToGrayscale(data)
+  //     let greySecret = new Image(
+  //       {width, height, data: grayscaleData, kind: 'GREY'}
+  //     );
+  //     setImageFile(greySecret.toDataURL())
+  //     setImageData({grayscaleData, width, height})
+  //   }
+  // }
+
   const onSecretLoaded = async () => {
     if(!imageData){
       const {data, width, height} = await pixels(imageRef.current);
-      const grayscaleData = rgbaToGrayscale(data)
       let greySecret = new Image(
-        {width, height, data: grayscaleData, kind: 'GREY'}
+        {width, height, data}
       );
+      console.log(data);
       setImageFile(greySecret.toDataURL())
-      setImageData({grayscaleData, width, height})
+      setImageData({data, width, height})
     }
   }
 
@@ -66,14 +81,16 @@ function App() {
 
   
   const onSubmitClick = () => {
-    const result = encrypt(sharesNum, threshold, imageData.grayscaleData, coversByte) 
+    const result = encrypt(sharesNum, threshold, imageData.data, coversByte) 
+    const PSNRs = result.modifiedCovers.map((modCover, index)=>PSNR(coversByte[index], modCover));
+    console.log("PSNR", PSNRs);
     const mCoversImages = result.modifiedCovers.map((cover)=>{
       const size = Math.round(Math.sqrt(cover.length));
       debugger;
       return new Image(({height: size, width: size, data: cover, kind: "GREY"}))
     })
     const modifiedCovers = mCoversImages.map(m=>m.toDataURL())
-    setShares(modifiedCovers)//change on result
+    setShares(modifiedCovers)
     setSubmited(true);
   }
 
@@ -86,6 +103,19 @@ function App() {
       grayscaleImage.push(Math.round(pixel))
     }
     return grayscaleImage
+  }
+
+  const PSNR = (origImage, modImage) => {
+    if (origImage.length !== modImage.length){
+      console.log('PSNR cannot be calculated!')
+      return 0;
+    }
+    let MSE = 0;
+    for (let i = 0; i < origImage.length; i++) {
+      MSE += Math.pow(Math.abs(origImage[i]-modImage[i]), 2);
+    }
+    MSE = (1/origImage.length) * MSE
+    return 10*Math.log10(255*255/MSE);
   }
 
   const greyToBinary = (greyPixels) => {

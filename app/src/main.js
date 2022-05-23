@@ -1,19 +1,30 @@
 import Big from "big.js"
 
 // STEP 1 encoding
+
 const primeNumberList = [
-    131, 137, 139, 149,
+  131, 137, 139, 149,
     151, 157, 163, 167, 
     173, 179, 181, 191, 
     193, 197, 199, 211, 
     223]
-export function encrypt(shares, threshold, secretPixels, covers){
+
+function q (ai, THi0, THi1, ci){
+    if(ci==1 && ai>=THi1){
+        return true
+    }
+    if (ci ==0 && ai<THi0){
+        return true
+    }
+    return false
+}
+export function encrypt(sharesNum, threshold, secretPixels, covers){
     // const p = primeNumberList[Math.floor(Math.random()*primeNumberList.length)]
     const p = 131
     console.log(p, 'p')
     let m = [241,247,251,253,254,255]
     let M = Big(1)
-    m = m.slice(-shares)
+    m = m.slice(-sharesNum)
     console.log(m, 'mi array')
 
     const m_thresh = m.slice(-threshold)
@@ -23,7 +34,7 @@ export function encrypt(shares, threshold, secretPixels, covers){
     let N = Big(1)
     // m_thresh.forEach(mi => N = N.times(mi))
     for (let i = 1; i < threshold; i++) {
-        N = N.times(m[shares-i])  
+        N = N.times(m[sharesNum-i])  
     }
     console.log(N.toString(), 'N')
 
@@ -37,30 +48,19 @@ export function encrypt(shares, threshold, secretPixels, covers){
     // STEP 2 encoding
     const T = M.div(p).minus(1).round(undefined, Big.roundDown).div(2).round()
     console.log(T.toString(), 'T')
-    // STEPS 3-5
-
-
-    function q (ai, THi0, THi1, ci){
-        if(ci==1 && ai>=THi1){
-            return true
-        }
-        if (ci ==0 && ai<THi0){
-            return true
-        }
-        return false
-    }
-    const TH = 8;
+    // STEPS 3-5 
+    const TH = 16;
     
     const modifiedCovers = []
-    for (let i = 0; i < shares; i++){
+    for (let i = 0; i < sharesNum; i++){
         modifiedCovers.push([])
     }
     secretPixels.forEach((x, sindex)=>{
         let A = 0;
         let y = 0;
         let qcond = false;
+        let qcondarr = []
         while(!qcond){
-            const qcondarr = []
             if (x>=0 && x<p){
                 const rightBound = M.div(p).minus(1).round(undefined, Big.roundDown)
                 const leftBound = T.plus(1)
@@ -72,6 +72,8 @@ export function encrypt(shares, threshold, secretPixels, covers){
                 A = T.times(Math.random()).round()
                 y = A.times(p).plus(x).minus(p)
             }
+            //переписать чтобы выбирать А из массива подходящих значений, а не рандомить и надеяться на чудо
+            //походу это невозможно
             m.forEach((mi, index) => {      
                 const THi0 = mi/2 - TH 
                 const THi1 = mi/2 + TH
@@ -81,6 +83,7 @@ export function encrypt(shares, threshold, secretPixels, covers){
             if (!qcondarr.includes(false)){
                 qcond = true
             }
+            qcondarr = []
         }
         m.forEach((mi, index) => {
             modifiedCovers[index][sindex] = y.mod(mi)
@@ -103,10 +106,10 @@ const secretPixels = [255, 125, 148, 200]
 const {modifiedCovers, m, T, p} = encrypt(shares, threshold, secretPixels, covers)
 
 // recovering process
-
 export function recover(modifiedCovers, m, T, p){
     const coversRecovered = new Array(modifiedCovers.length).fill([]);
 // reconstructing covers
+    
     modifiedCovers.forEach((mc, mcindex)=>{
         const binThreshold = m[mcindex]/2
         mc.forEach((mcp, mcpindex)=>{
@@ -126,11 +129,9 @@ export function recover(modifiedCovers, m, T, p){
             let temp = newt;
             newt = t.minus(quotient.times(newt));
             t = temp;
-            // (t, newt) = (newt, t - quotient * newt) 
             temp = newr;
             newr = r.minus(quotient.times(newr));
             r = temp;
-            // (r, newr) = (newr, r - quotient * newr)
         }
         if (r.gt(1))
             return "is not inversible"
@@ -173,5 +174,8 @@ export function recover(modifiedCovers, m, T, p){
     return {secretRecovered: secretRecovered.map(s=>parseInt(s.toString())), coversRecovered}
 }
 
+function encryptRGBAImage(shares, threshold, secretPixels, covers){
+
+}
 const {secretRecovered, coversRecovered} = recover(modifiedCovers, m, T, p);
 console.log(secretRecovered, 'recovered\n', secretPixels)

@@ -1,4 +1,3 @@
-import gcd from "compute-gcd"
 import Big from "big.js"
 
 // STEP 1 encoding
