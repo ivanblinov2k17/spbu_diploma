@@ -97,9 +97,15 @@ function App() {
   return (
     <div className="App">
       <div className='secret'>
-        <h3 className='header'>
-          Open secret image
-        </h3>
+        <div className='menu'>
+          <h3 className='header'>
+            Open secret image
+          </h3>
+        <label className="switch">
+          <input type="checkbox" />
+            <span className="slider"></span>
+        </label>
+        </div>
         <span className='file-input'>
           <input className='choose-file' id="file" type="file" accept="image/png" onChange={onSecretChange}></input>
           <label for="file">
@@ -137,7 +143,7 @@ function CoversComponent(props){
   {
   Array(parseInt(sharesNum)).fill(undefined).map((_, index)=>{
     return <div className='cover-image' key={index}>
-      <h4 className='header'>
+      <h4 className='header-a'>
         Cover Image for share {index + 1}
       </h4>
       <span className='file-input'>
@@ -161,7 +167,7 @@ function SharesComponent(props){
   {
   Array(parseInt(sharesNum)).fill(undefined).map((_, index)=>{
     return <div className='generated-block' key={index}>
-      <h4 className='header'>
+      <h4 className='header-a'>
         Share {index+1}
       </h4>
       <img className='generated-img' src={shares?.[index]} height="512px" width="512px" 
