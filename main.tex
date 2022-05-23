@@ -18,7 +18,7 @@
 \usepackage{makecell}
 % Картинки (можно встявлять даже pdf)
 \usepackage[pdftex]{graphicx}
-\graphicspath{{figure_1/}{rgbcolor/}{figure_2/}}
+\graphicspath{{figure_1/}{rgbcolor/}{figure_2/}{perfomance_th}}
 
 \usepackage{amsthm,amssymb, amsmath}
 % remove leading space of mod
@@ -302,8 +302,28 @@ $$\forall r_1,...,r_n \in N : 0\leq r_i<a_i, \forall i\in \overline{1,n}$$
             {{8+n}\over{8n}}
     \end{equation}
     \item Результаты работы алгоритма для изображений, размером $512\times 512$ $n=5$, $k=4$, $TH=16$ показаны на Рисунке~\ref{fig:experimental_grey_images}.
-    Значения $PSNR$ -- $SC_1$: $37.36$, $SC_2$: $37.15$, $SC_3$: $36.93$, $SC_4$: $37.25$, $SC_5$: $36.98$  
+    Значения $PSNR$ -- $SC_1$: $12.05$, $SC_2$: $11.48$, $SC_3$: $12.55$, $SC_4$: $11.96$, $SC_5$: $12.10$  
 \end{enumerate}
+
+\begin{figure}[H]
+    \begin{minipage}[h]{0.45\linewidth}
+        \center{\includegraphics[width=1\linewidth]{psnr-th.png} \\ $PSNR$ -- $TH$ }
+    \end{minipage}
+    \hfill
+    \begin{minipage}[h]{0.45\linewidth}
+        \center{\includegraphics[width=1\linewidth]{na.png} \\ $N_a$ -- $TH$ }
+    \end{minipage}
+    \vfill
+    \begin{minipage}[h]{0.45\linewidth}
+        \center{\includegraphics[width=1\linewidth]{time-th.png} \\ $Time, sec$ -- $TH$}
+    \end{minipage}
+    \hfill
+    
+    \caption{Экспериментальные данные}
+    %задает метку рисунка чтобы после ссылаться
+    \label{fig:perf_th}
+\end{figure}
+
 \begin{figure}[H]
     \begin{minipage}[h]{0.3\linewidth}
         \center{\includegraphics[width=1\linewidth]{lena.png} \\ $S$ }
@@ -377,23 +397,23 @@ $$EC = {{(32 \times {W \over 2} \times {H \over 2}) + (n \times W \times H)} \ov
 Для RGB изображения:
 $EC = {6+n \over 8n}$
 
-Результаты работы алгоритма с цветным секретным изображением размера $256\times256$, $n=4$, $k=3$ представлены на Рисунке~\ref{fig:experimental_mod}.
+Результаты работы алгоритма с цветным секретным изображением размера $256\times256$, $n=4$, $k=3$, $TH=16$ представлены на Рисунке~\ref{fig:experimental_mod}.
 
 \begin{figure}[ph!]
     \begin{minipage}[h]{0.3\linewidth}
-        \center{\includegraphics[width=1\linewidth]{COLshare1.png} \\ $SC_1$ \\ $PSNR=\infty$}
+        \center{\includegraphics[width=1\linewidth]{COLshare1.png} \\ $SC_1$ \\ $PSNR=11.51$}
     \end{minipage}
     \hfill
     \begin{minipage}[h]{0.3\linewidth}
-        \center{\includegraphics[width=1\linewidth]{COLshare2.png} \\ $SC_2$ \\ $PSNR=\infty$}
+        \center{\includegraphics[width=1\linewidth]{COLshare2.png} \\ $SC_2$ \\ $PSNR=12.32$}
     \end{minipage}
     \hfill
     \begin{minipage}[h]{0.3\linewidth}
-        \center{\includegraphics[width=1\linewidth]{COLshare3.png} \\ $SC_3$ \\ $PSNR=\infty$}
+        \center{\includegraphics[width=1\linewidth]{COLshare3.png} \\ $SC_3$ \\ $PSNR=11.94$}
     \end{minipage}
     \vfill
     \begin{minipage}[h]{0.3\linewidth}
-        \center{\includegraphics[width=1\linewidth]{COLshare4.png} \\ $SC_4$ \\ $PSNR=\infty$}
+        \center{\includegraphics[width=1\linewidth]{COLshare4.png} \\ $SC_4$ \\ $PSNR=12.10$}
     \end{minipage}
     \hfill
     \begin{minipage}[h]{0.3\linewidth}
@@ -522,6 +542,12 @@ greyToBinary переводит серую картинку в бинарный 
 Интерфейс сайта представлен на Рисунке~(ссылка). Сравнение производительности операции разделения секрета на клиенте и сервере
 представлены на Рисунке~(ссылка).
 
+\begin{figure}[H]
+    \center{\includegraphics[width=1\linewidth]{site-server.png}}
+    \caption{Сравнение производительности сайта и сервера, сервер отмечен голубой линией, сайт красной}
+    \label{fig:site-server}
+\end{figure}
+
 
 \newpage
 \specialsection{Заключение}
@@ -535,20 +561,16 @@ greyToBinary переводит серую картинку в бинарный 
 % Библиография в cpsconf стиле
 % Аргумент {1} ниже включает переопределенный стиль с выравниванием слева
 \begin{thebibliography}{1}
-\bibitem{shamir} Shamir, A. (1979). How to share a secret. Communications of the ACM, 22(11), 612-613.
-\bibitem{review} Salehi, S., \& Balafar, M. A. (2015). An investigation on image secret sharing. International Journal of Security and its Applications, 9(3), 163-190.
-\bibitem{RISS} Yan, X., Lu, Y., Liu, L., \& Song, X. (2020). Reversible image secret sharing. IEEE Transactions on Information Forensics and Security, 15, 3848-3858.
-\bibitem{CRTSIS} X. Yan, Y. Lu, L. Liu, S. Wan, W. Ding, and H. Liu,
-“Chinese remainder theorem-based secret image sharing for (k,
-n) threshold,” Cloud Computing and Security: Third International
-Conference, ICCCS 2017, Nanjing, China, June 16-18, 2017, Revised
-Selected Papers, Part II, pp. 433–440, 2017.
-\bibitem{scopus} https://www.scopus.com/
-\bibitem{react}
-\bibitem{image-js}
-\bibitem{Big.js}
-\bibitem{shamir-VCS} Naor, M., \& Shamir, A. (1995). Visual cryptography.
-\bibitem{WEB-VC} Lee, S., Huang, Y., \& Lin, J. (2019). WEB-VC: Visual cryptography for web image. Paper presented at the Proceedings - International Conference on Image Processing, ICIP, , 2019-September 4055-4059.
-\bibitem{metrics} Y. Zhang, J. Jiang, Y. Zha, H. Zhang and S. Zhao, "Research on Embedding Capacity and Efficiency of Information Hiding Based on Digital Images," International Journal of Intelligence Science, Vol. 3 No. 2, 2013, pp. 77-85.
+\bibitem{shamir} Shamir, A. H ow to share a secret / A. Shamir. //  Communications of the ACM. — 1979. — № 22(11). — P. 612-613.
+\bibitem{review} Salehi, S. An investigation on image secret sharing / S. Salehi, Balafar, A. M. // International Journal of Security and its Applications. — 2015. — № 9(3). — P. 163-190.
+\bibitem{RISS} Yan, X. Reversible image secret sharing / X. Yan, Y. Lu, L. Liu, X. Song. // IEEE Transactions on Information Forensics and Security. — 2020. — № 15. — P. 3848-3858.
+\bibitem{CRTSIS} Yan, X. Chinese remainder theorem-based secret image sharing for (k, n) threshold / X. Yan, Y. Lu, L. Liu, S. Wan, W. Ding, H. Liu. //   Cloud Computing and Security: Third International Conference. — 2017. — № 2. — P. 433-440.
+\bibitem{scopus} База данных Scopus / [Электронный ресурс]. – URL: https://www.scopus.com// (дата обращения: 02.05.2022).
+\bibitem{react} JavaScript-библиотека для создания пользовательских интерфейсов / [Электронный ресурс]. – URL: https://ru.reactjs.org/ (дата обращения: 20.04.2022).
+\bibitem{image-js} Node Package Manager, Image-js library / [Электронный ресурс]. – URL: https://www.npmjs.com/package/image-js (дата обращения: 24.04.2022).
+\bibitem{Big.js} Node Package Manager, Big-js library / [Электронный ресурс]. – URL: https://www.npmjs.com/package/big-js (дата обращения: 25.04.2022).
+\bibitem{shamir-VCS} Shamir, A. Visual cryptography / A. Shamir, M. Naor // Lecture Notes in Computer Science (including subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics). — 1995. — № 950. — P. 1-12.
+\bibitem{WEB-VC} Lee, S. WEB-VC: Visual cryptography for web image / S. Lee, Y. Huang, J. Lin  //  International Conference on Image Processing, ICIP. — 2019. — P. 4055-4059.
+\bibitem{metrics} Zhang, Y. Research on Embedding Capacity and Efficiency of Information Hiding Based on Digital Images / Y. Zhang, J. Jiang, Y. Zha, H. Zhang, S. Zhao // International Journal of Intelligence Science. — 2013. — № 3(2). — P. 77-85.
 \end{thebibliography}
 \end{document}
