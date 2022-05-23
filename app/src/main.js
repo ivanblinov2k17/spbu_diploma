@@ -109,6 +109,7 @@ const {modifiedCovers, m, T, p} = encrypt(shares, threshold, secretPixels, cover
 export function recover(modifiedCovers, m, T, p){
     const coversRecovered = new Array(modifiedCovers.length).fill([]);
 // reconstructing covers
+    
     modifiedCovers.forEach((mc, mcindex)=>{
         const binThreshold = m[mcindex]/2
         mc.forEach((mcp, mcpindex)=>{

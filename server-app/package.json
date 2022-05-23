@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "image-js": "^0.34.1"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "type": "module",
+  "name": "server-app",
+  "version": "1.0.0",
+  "main": "server.js",
+  "devDependencies": {},
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

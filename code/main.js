@@ -1,5 +1,4 @@
 import Big from "big.js"
-import {Image} from "image-js"
 
 // STEP 1 encoding
 const primeNumberList = [

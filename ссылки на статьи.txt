@@ -1,0 +1,10 @@
+https://proxy.library.spbu.ru:2084/record/display.uri?eid=2-s2.0-84928387178&origin=resultslist&sort=r-f&src=s&st1=secret+sharing+digital&nlo=&nlr=&nls=&sid=11a53b84fa9002b9d1da806b91f352e3&sot=b&sdt=b&sl=37&s=TITLE-ABS-KEY%28secret+sharing+digital%29&relpos=27&citeCnt=3&searchTerm=&featureToggles=FEATURE_NEW_DOC_DETAILS_EXPORT:1
+Investigation
+https://proxy.library.spbu.ru:2084/record/display.uri?eid=2-s2.0-0018545449&origin=resultslist&sort=cp-f&featureToggles=FEATURE_NEW_DOC_DETAILS_EXPORT:1
+Shamir
+https://proxy.library.spbu.ru:2084/record/display.uri?eid=2-s2.0-85087560910&origin=resultslist&sort=r-f&src=s&st1=Reversible+Image+Secret+Sharing&nlo=&nlr=&nls=&sid=c4ea0c521cc875cf96846fc92c01dffd&sot=b&sdt=b&sl=46&s=TITLE-ABS-KEY%28Reversible+Image+Secret+Sharing%29&relpos=1&citeCnt=29&searchTerm=&featureToggles=FEATURE_NEW_DOC_DETAILS_EXPORT:1
+RISS
+https://proxy.library.spbu.ru:2084/record/display.uri?eid=2-s2.0-84926193517&origin=resultslist&sort=cp-f&featureToggles=FEATURE_NEW_DOC_DETAILS_EXPORT:1
+Shamir VCS
+https://proxy.library.spbu.ru:2084/record/display.uri?eid=2-s2.0-85076811212&origin=resultslist&sort=cp-f&src=s&st1=WEB-VC&sid=7f3cb1e084ccaa9f57f6dd7295834b05&sot=b&sdt=b&sl=21&s=TITLE-ABS-KEY%28WEB-VC%29&relpos=0&citeCnt=1&searchTerm=&featureToggles=FEATURE_NEW_DOC_DETAILS_EXPORT:1
+WEB-VC
