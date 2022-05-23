@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "big.js": "^6.1.1",
-    "compute-gcd": "^1.2.1"
+    "compute-gcd": "^1.2.1",
+    "image-js": "^0.34.1"
   }
 }
