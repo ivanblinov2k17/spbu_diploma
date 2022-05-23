@@ -127,26 +127,38 @@ function App() {
   return (
     <div className="App">
       <div className='secret'>
-        <div>
-          Open secret image
+        <div className='menu'>
+          <h3 className='header'>
+            Open secret image
+          </h3>
+        <label className="switch">
+          <input type="checkbox" />
+            <span className="slider"></span>
+        </label>
         </div>
-        <input type="file" accept="image/png" onChange={onSecretChange}></input>
-        <img src={imageFile}  onLoad={onSecretLoaded} height="256px" width="256px" alt='secret' ref={imageRef}></img>
-        Grayscaled Secret:
-        <img></img>
+        <span className='file-input'>
+          <input className='choose-file' id="file" type="file" accept="image/png" onChange={onSecretChange}></input>
+          <label for="file">
+            <img className="selectImg" alt="img" src="https://cdn-icons.flaticon.com/png/512/3031/premium/3031707.png?token=exp=1653135303~hmac=31b0247f3a27b147fa2ceeb5c4b83971"/>
+            Select file
+            </label>
+        </span>
+        {imageFile && <img className='main-image' src={imageFile}  onLoad={onSecretLoaded} height="512px" width="512px" alt='secret' ref={imageRef}></img>}
       </div>
 
+      <div className='container'>
       <div className='scheme'>
         Enter shares number (3 - 6)
-        <input type="number" value={sharesNum} onChange={sharesChange} max="10" min="3"></input>
+        <input className='input-num' type="number" value={sharesNum} onChange={sharesChange} max="10" min="3"></input>
 
         Enter threshold value (2 - 5)
-        <input type="number" value={threshold} onChange={(e)=>{setThreshold(e.target.value)}} max="9" min="2"></input>
+        <input className='input-num' type="number" value={threshold} onChange={(e)=>{setThreshold(e.target.value)}} max="9" min="2"></input>
+      </div>
       </div>
       {imageData && sharesNum 
       ? <CoversComponent {...{sharesNum, covers, coversRef, onCoverChange, onCoverLoaded}}/> : ''}
 
-      <button onClick={onSubmitClick}>Generate Shares</button>
+      <button className='generate-button' onClick={onSubmitClick}>Generate shares!</button>
       {submited && <SharesComponent {...{sharesNum, shares}}/>}
 
     </div>
@@ -157,14 +169,22 @@ function App() {
 function CoversComponent(props){
   const {sharesNum, covers, coversRef, onCoverChange, onCoverLoaded} = props
 
-  return <div className='covers'> 
+  return <div className='covers-container'> 
   {
   Array(parseInt(sharesNum)).fill(undefined).map((_, index)=>{
-    return <div key={index}>
-      Cover Image for share {index}
-      <input type="file" accept="image/png" onChange={(e)=>onCoverChange(e, index)}></input>
-      <img src={covers?.[index]} height="512px" width="512px" 
-        onLoad={(e)=>onCoverLoaded(e, index)} alt={`cover_${index}`} ref={(el) => coversRef.current[index] = el}></img>
+    return <div className='cover-image' key={index}>
+      <h4 className='header-a'>
+        Cover Image for share {index + 1}
+      </h4>
+      <span className='file-input'>
+        <input type="file" className='choose-file' id={`filee${index}`} accept="image/png" onChange={(e)=>onCoverChange(e, index)}></input>
+          <label for={`filee${index}`}>
+            <img className="selectImg" alt="img" src="https://cdn-icons.flaticon.com/png/512/3031/premium/3031707.png?token=exp=1653135303~hmac=31b0247f3a27b147fa2ceeb5c4b83971"/>
+              Select file
+          </label>
+      </span>
+      {covers?.[index] && <img src={covers?.[index]} height="512px" width="512px" 
+        onLoad={(e)=>onCoverLoaded(e, index)} alt={`cover_${index}`} ref={(el) => coversRef.current[index] = el}></img>}
     </div>
     })
   }</div>
@@ -173,12 +193,14 @@ function CoversComponent(props){
 function SharesComponent(props){
   const {sharesNum, shares} = props
 
-  return <div> 
+  return <div className='generated-container'> 
   {
   Array(parseInt(sharesNum)).fill(undefined).map((_, index)=>{
-    return <div key={index}>
-      Share {index}
-      <img src={shares?.[index]} height="512px" width="512px" 
+    return <div className='generated-block' key={index}>
+      <h4 className='header-a'>
+        Share {index+1}
+      </h4>
+      <img className='generated-img' src={shares?.[index]} height="512px" width="512px" 
         alt={`share_${index}`}></img>
     </div>
     })
